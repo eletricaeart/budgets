@@ -1,7 +1,9 @@
+
 import React from 'react';
+import { View } from '../components/widgets/index';
 
 // Importando todos os componentes que criamos
-import EACard from './EACard';
+import EACard from './EACard/EACard';
 import DocTitle from './DocTitle';
 import Cliente from './Cliente';
 import Article from './Article';
@@ -37,7 +39,7 @@ export default function OrcamentoBase ({
   return( <>
     <home-page>
       {/* O ID 'invoice_html' é usado pela função generatePDF para saber qual elemento imprimir */}
-      <view id="invoice_html">
+      <View as="view" id="invoice_html">
         <EACard section="dual" />
 
         <DocTitle subtitle={docSubtitle} emissao={emissaoDate} validade={validadeDate}>
@@ -90,7 +92,7 @@ export default function OrcamentoBase ({
         <Article label="7. Assinatura e Aprovação" />
 
         <Signatures />
-      </view>
+      </View>
 
     </home-page>
     <footer>
