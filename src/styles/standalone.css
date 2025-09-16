@@ -1,0 +1,14 @@
+
+@media (display-mode: standalone) {
+  /* Estilos para o seu header, para evitar que ele fique escondido
+  atrás da barra de status do dispositivo. */
+  .header {
+    padding-top: 2rem; /* Exemplo de ajuste */
+  }
+
+  /* Ou use um espaçador como no vídeo */
+  .spacer-for-standalone {
+    height: 120px;
+  }
+}
+

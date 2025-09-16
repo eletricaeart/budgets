@@ -1,0 +1,19 @@
+
+body {
+  font: 1em "inter";
+  font-weight: 400;
+  color: var( --text-color );
+  --class-title: var( --card-lv2 );
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin: 0;
+  background: var( --bg );
+  min-height: 100dvh !important;
+  max-height: 100dvh !important;
+  font-size: 0.8em;
+}
+
