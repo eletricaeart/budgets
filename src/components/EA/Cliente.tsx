@@ -1,18 +1,19 @@
 
 import React from 'react';
+import { View } from '../widgets';
 
 export default function Cliente ({ nome, endereço, children }: { nome: string, endereço: string, children?: React.ReactNode }) {
   return( <>
-    <div className="cliente-container">
-      <div>
+    <View className="cliente-container">
+      <View>
         <header className="cliente-header">
-          <div>
+          <View>
             Cliente
-          </div>
+          </View>
         </header>
-        <div className="cliente-content">
-          <div className="card">
-            <div>
+        <View className="cliente-content">
+          <View className="card">
+            <View>
               {nome && (
                 <p>
                   <b>Nome: </b> {nome}
@@ -24,11 +25,11 @@ export default function Cliente ({ nome, endereço, children }: { nome: string, 
                 </p>
               )}
               {children}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
   </> );
 };
 

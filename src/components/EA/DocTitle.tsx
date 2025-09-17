@@ -46,7 +46,7 @@ export default function DocTitle ({ subtitle, emissao, validade, children }: { s
         <b>Validade da Proposta: </b>
         <span>{validade}</span>
       </View>
-    </div>
+    </View>
   </> );
 };
 
