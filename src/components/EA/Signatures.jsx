@@ -11,12 +11,12 @@ export default function Signatures ({ signer1 = "Rafael - Elétrica&Art", signer
       
       {/* Each <signature section> is converted to a div */}
       <signature className="signature">
-        <ontent className="signature-content">
+        <content className="signature-content">
           {/* <sig-name> is converted to a div */}
           <div className="signature-name-line">
             {signer1}
           </div>
-        </ontent>
+        </content>
       </signature>
 
       <signature className="signature">
