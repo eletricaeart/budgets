@@ -4,13 +4,11 @@ import { View } from '../widgets';
 
 export default function Section ({ label, className, children }) {
   // If a label is provided, wrap the children in a header structure.
-  if (label) {
-    return (
+  if( label ) {
+    return( <>
       <section className={className}>
-        {/* The original script used a custom <ui> tag, replaced by a div */}
         <ui className="section-wrapper">
           <header className="section-header">
-            {/* The original script used <t6>, which translates well to <h6> */}
             <t6>{label}</t6>
           </header>
           <content className="section-content">
@@ -18,14 +16,14 @@ export default function Section ({ label, className, children }) {
           </content>
         </ui>
       </section>
-    );
+    </> );
   }
 
   // If no label, just render the section with its children.
-  return (
+  return( <>
     <section className={className}>
       {children}
     </section>
-  );
+  </> );
 };
 

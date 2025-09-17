@@ -2,7 +2,7 @@
 import React from 'react';
 import { View } from '../widgets';
 
-const DocTitle = ({ subtitle, emissao, validade, children }) => {
+export default function DocTitle ({ subtitle, emissao, validade, children }) {
   const titleStyle = {
     fontWeight: 700,
     color: '#003b6b',
@@ -30,7 +30,7 @@ const DocTitle = ({ subtitle, emissao, validade, children }) => {
     padding: '0 0.5em',
   };
 
-  return (
+  return( <>
     <doc-title className="doc-title">
       {subtitle && (
         <View as ='t' style={subtitleStyle}>
@@ -48,7 +48,6 @@ const DocTitle = ({ subtitle, emissao, validade, children }) => {
         <span>{validade}</span>
       </View>
     </doc-title>
-  );
+  </> );
 };
 
-export default DocTitle;

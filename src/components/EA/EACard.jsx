@@ -4,7 +4,6 @@ import { View } from '../widgets/index';
 import './EACard.css';
 
 export default function EACard ({ section }) {
-  // Paths assuming the 'assets' folder is moved to 'public/assets' in a typical React setup.
   const eaLogos = {
     local: "/assets/eaLogos/ea300.png",
     name: "/assets/eaLogos/ea-Name.png",
