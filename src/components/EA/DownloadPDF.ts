@@ -1,9 +1,11 @@
+declare const html2pdf: any;
+
 /**
  * Note: This function depends on the html2pdf.js library.
  * Make sure to include it in your project's main HTML file, for example:
  * <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
  */
-const generatePDF = (elementId, filename = 'document') => {
+const generatePDF = (elementId: string, filename = 'document') => {
   const element = document.getElementById(elementId);
 
   if (!element) {

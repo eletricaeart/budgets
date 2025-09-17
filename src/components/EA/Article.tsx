@@ -2,8 +2,8 @@
 import React from 'react';
 import { View } from '../widgets';
 
-export default function Article ({ label, className, children }) {
-  const headerTextStyle = {
+export default function Article ({ label, className, children }: { label?: string, className?: string, children?: React.ReactNode }) {
+  const headerTextStyle: React.CSSProperties = {
     fontWeight: 700,
     textTransform: 'uppercase',
   };
@@ -12,18 +12,18 @@ export default function Article ({ label, className, children }) {
   if( label ) {
     return( <>
       <article className={className}>
-        <ui className="article-wrapper">
+        <View className="article-wrapper">
           <header className="article-header">
-            <ui>
-            <t style={headerTextStyle}>
+            <View>
+            <p style={headerTextStyle}>
               {label}
-            </t>
-            </ui>
+            </p>
+            </View>
           </header>
-          <content className="article-content">
+          <View className="article-content">
             {children}
-          </content>
-        </ui>
+          </View>
+        </View>
       </article>
     </> );
   }

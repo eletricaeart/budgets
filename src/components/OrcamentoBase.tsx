@@ -1,15 +1,14 @@
 
-import React from 'react';
 import { View } from '../components/widgets/index';
 
 // Importando todos os componentes que criamos
-import EACard from './EA/EACard';
-import DocTitle from './EA/DocTitle';
-import Cliente from './EA/Cliente';
-import Article from './EA/Article';
-import Section from './EA/Section';
-import Signatures from './EA/Signatures';
-import generatePDF from './EA/DownloadPDF';
+import EACard from './EA/EACard.tsx';
+import DocTitle from './EA/DocTitle.tsx';
+import Cliente from './EA/Cliente.tsx';
+import Article from './EA/Article.tsx';
+import Section from './EA/Section.tsx';
+import Signatures from './EA/Signatures.tsx';
+import generatePDF from './EA/DownloadPDF.ts';
 
 // CSS: É recomendado importar os estilos globais no componente principal da sua aplicação (ex: App.js)
 // import '../assets/theme/globals.css'; 
@@ -37,7 +36,7 @@ export default function OrcamentoBase ({
   const PageBreak = () => <div style={{ pageBreakAfter: 'always' }} id="break-page"></div>;
 
   return( <>
-    <home-page>
+    <div className="home-page">
       {/* O ID 'invoice_html' é usado pela função generatePDF para saber qual elemento imprimir */}
       <View as="view" id="invoice_html">
         <EACard section="dual" />
@@ -94,7 +93,7 @@ export default function OrcamentoBase ({
         <Signatures />
       </View>
 
-    </home-page>
+    </div>
     <footer>
       <div>
         <button id="btn_createPDF" onClick={handleDownloadPDF}>

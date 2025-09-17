@@ -1,9 +1,8 @@
 
-import React from 'react';
 import { View } from '../widgets/index';
 import './EACard.css';
 
-export default function EACard ({ section }) {
+export default function EACard ({ section }: { section: string }) {
   const eaLogos = {
     local: "/assets/eaLogos/ea300.png",
     name: "/assets/eaLogos/ea-Name.png",
@@ -23,32 +22,32 @@ export default function EACard ({ section }) {
   `;
 
   return (
-    <View as="ea-card" className="ea-card" data-section={section}>
+    <View as="div" className="ea-card" data-section={section}>
       {/* <style>{eaCardStyle}</style> */}
       <style>{testStyle}</style>
-      <ea-logo className="ea-logo">
-        <content className="content">
+      <div className="ea-logo">
+        <div className="content">
           <img 
             src={eaLogos.local}
             alt="ea-logo" 
           />
-        </content>
-      </ea-logo>
-      <description className="description">
-        <ea-name className="ea-name">
+        </div>
+      </div>
+      <div className="description">
+        <div className="ea-name">
           <img 
             src={eaLogos.name}
             alt="ea-Name" 
           />
-        </ea-name>
-        <t5>
+        </div>
+        <h5>
           CNPJ 32.858.892/0001-52 - IM 67358/0001
-        </t5>
-        <t className="t-block">
+        </h5>
+        <p className="t-block">
           Rua José Alves Maciel, 40 - Aviação <br />
           Praia Grande - São Paulo - SP - Cep 11702-440
-        </t>
-        <t className="t-block">
+        </p>
+        <p className="t-block">
           <a href="tel:+5513997685853">
             <strong>Fone </strong> ( 13 ) 99768-5853 <br />
           </a>
@@ -58,8 +57,8 @@ export default function EACard ({ section }) {
           <a href="mailto:rafa.julia.forever@gmail.com">
             <strong>E-mail </strong> rafa.julia.forever@gmail.com <br />
           </a>
-        </t>
-      </description>
+        </p>
+      </div>
     </View>
   );
 }

@@ -1,8 +1,7 @@
 
-import React from 'react';
 import { View } from '../widgets';
 
-export default function DocTitle ({ subtitle, emissao, validade, children }) {
+export default function DocTitle ({ subtitle, emissao, validade, children }: { subtitle: string, emissao: string, validade: string, children: React.ReactNode }) {
   const titleStyle = {
     fontWeight: 700,
     color: '#003b6b',
@@ -31,23 +30,23 @@ export default function DocTitle ({ subtitle, emissao, validade, children }) {
   };
 
   return( <>
-    <doc-title className="doc-title">
+    <div className="doc-title">
       {subtitle && (
-        <View as ='t' style={subtitleStyle}>
+        <View as ='p' style={subtitleStyle}>
           {subtitle}
         </View>
       )}
-      <View as='t' style={titleStyle}>
+      <View as='p' style={titleStyle}>
         {children}
       </View>
-      <View as ='t' id="doc_id" style={detailsStyle}>
+      <View as ='div' id="doc_id" style={detailsStyle}>
         <b>Data de Emissão: </b>
         <span>{emissao}</span>
         <span style={separatorStyle}> | </span>
         <b>Validade da Proposta: </b>
         <span>{validade}</span>
       </View>
-    </doc-title>
+    </div>
   </> );
 };
 
