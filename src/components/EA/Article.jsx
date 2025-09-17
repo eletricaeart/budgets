@@ -1,6 +1,8 @@
-import React from 'react';
 
-const Article = ({ label, className, children }) => {
+import React from 'react';
+import { View } from '../widgets';
+
+export default function Article ({ label, className, children }) {
   const headerTextStyle = {
     fontWeight: 700,
     textTransform: 'uppercase',
@@ -11,16 +13,18 @@ const Article = ({ label, className, children }) => {
     return (
       <article className={className}>
         {/* The original script used a custom <ui> tag, here replaced by a div */}
-        <div className="article-wrapper">
+        <ui className="article-wrapper">
           <header className="article-header">
-            <p style={headerTextStyle}>
+            <ui>
+            <t style={headerTextStyle}>
               {label}
-            </p>
+            </t>
+            </ui>
           </header>
-          <div className="article-content">
+          <content className="article-content">
             {children}
-          </div>
-        </div>
+          </content>
+        </ui>
       </article>
     );
   }
@@ -33,4 +37,3 @@ const Article = ({ label, className, children }) => {
   );
 };
 
-export default Article;

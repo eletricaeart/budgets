@@ -1,20 +1,22 @@
-import React from 'react';
 
-const Section = ({ label, className, children }) => {
+import React from 'react';
+import { View } from '../widgets';
+
+export default function Section ({ label, className, children }) {
   // If a label is provided, wrap the children in a header structure.
   if (label) {
     return (
       <section className={className}>
         {/* The original script used a custom <ui> tag, replaced by a div */}
-        <div className="section-wrapper">
+        <ui className="section-wrapper">
           <header className="section-header">
             {/* The original script used <t6>, which translates well to <h6> */}
-            <h6>{label}</h6>
+            <t6>{label}</t6>
           </header>
-          <div className="section-content">
+          <content className="section-content">
             {children}
-          </div>
-        </div>
+          </content>
+        </ui>
       </section>
     );
   }
@@ -27,4 +29,3 @@ const Section = ({ label, className, children }) => {
   );
 };
 
-export default Section;

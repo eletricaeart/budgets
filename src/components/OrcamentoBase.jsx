@@ -5,11 +5,11 @@ import { View } from '../components/widgets/index';
 // Importando todos os componentes que criamos
 import EACard from './EA/EACard';
 import DocTitle from './EA/DocTitle';
-import Cliente from './Cliente';
-import Article from './Article';
-import Section from './Section';
-import Signatures from './Signatures';
-import generatePDF from './DownloadPDF';
+import Cliente from './EA/Cliente';
+import Article from './EA/Article';
+import Section from './EA/Section';
+import Signatures from './EA/Signatures';
+import generatePDF from './EA/DownloadPDF';
 
 // CSS: É recomendado importar os estilos globais no componente principal da sua aplicação (ex: App.js)
 // import '../assets/theme/globals.css'; 

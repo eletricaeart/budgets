@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { View } from '../widgets';
 
 const DocTitle = ({ subtitle, emissao, validade, children }) => {
   const titleStyle = {
@@ -31,20 +33,20 @@ const DocTitle = ({ subtitle, emissao, validade, children }) => {
   return (
     <doc-title className="doc-title">
       {subtitle && (
-        <p style={subtitleStyle}>
+        <View as ='t' style={subtitleStyle}>
           {subtitle}
-        </p>
+        </View>
       )}
-      <p style={titleStyle}>
+      <View as='t' style={titleStyle}>
         {children}
-      </p>
-      <div id="doc_id" style={detailsStyle}>
+      </View>
+      <View as ='t' id="doc_id" style={detailsStyle}>
         <b>Data de Emissão: </b>
         <span>{emissao}</span>
         <span style={separatorStyle}> | </span>
         <b>Validade da Proposta: </b>
         <span>{validade}</span>
-      </div>
+      </View>
     </doc-title>
   );
 };
