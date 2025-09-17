@@ -1,19 +1,20 @@
 
 import React from 'react';
+import { View } from '../widgets';
 
 export default function Section ({ label, className, children }: { label?: string, className?: string, children?: React.ReactNode }) {
   // If a label is provided, wrap the children in a header structure.
   if( label ) {
     return( <>
       <section className={className}>
-        <div className="section-wrapper">
+        <View className="section-wrapper">
           <header className="section-header">
             <h6>{label}</h6>
           </header>
-          <div className="section-content">
+          <View className="section-content">
             {children}
-          </div>
-        </div>
+          </View>
+        </View>
       </section>
     </> );
   }

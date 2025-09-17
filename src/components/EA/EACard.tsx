@@ -25,21 +25,21 @@ export default function EACard ({ section }: { section: string }) {
     <View as="div" className="ea-card" data-section={section}>
       {/* <style>{eaCardStyle}</style> */}
       <style>{testStyle}</style>
-      <div className="ea-logo">
-        <div className="content">
+      <View className="ea-logo">
+        <View className="content">
           <img 
             src={eaLogos.local}
             alt="ea-logo" 
           />
-        </div>
-      </div>
-      <div className="description">
-        <div className="ea-name">
+        </View>
+      </View>
+      <View className="description">
+        <View className="ea-name">
           <img 
             src={eaLogos.name}
             alt="ea-Name" 
           />
-        </div>
+        </View>
         <h5>
           CNPJ 32.858.892/0001-52 - IM 67358/0001
         </h5>
@@ -58,7 +58,7 @@ export default function EACard ({ section }: { section: string }) {
             <strong>E-mail </strong> rafa.julia.forever@gmail.com <br />
           </a>
         </p>
-      </div>
+      </View>
     </View>
   );
 }
