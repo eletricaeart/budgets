@@ -3,8 +3,8 @@ import React from 'react';
 import { View } from '../components/widgets/index';
 
 // Importando todos os componentes que criamos
-import EACard from './EACard/EACard';
-import DocTitle from './DocTitle';
+import EACard from './EA/EACard';
+import DocTitle from './EA/DocTitle';
 import Cliente from './Cliente';
 import Article from './Article';
 import Section from './Section';

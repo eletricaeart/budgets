@@ -29,7 +29,7 @@ const DocTitle = ({ subtitle, emissao, validade, children }) => {
   };
 
   return (
-    <div className="doc-title">
+    <doc-title className="doc-title">
       {subtitle && (
         <p style={subtitleStyle}>
           {subtitle}
@@ -45,7 +45,7 @@ const DocTitle = ({ subtitle, emissao, validade, children }) => {
         <b>Validade da Proposta: </b>
         <span>{validade}</span>
       </div>
-    </div>
+    </doc-title>
   );
 };
 
