@@ -2047,7 +2047,7 @@ flag {
    justify-content: center;
 }
 
-section, [ pd ] {
+section, [pd] {
    padding: 1em;
 }
 
