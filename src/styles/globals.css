@@ -214,6 +214,31 @@ content:has( label ),
    gap: 1.5rem;
 }
 
+body > footer {
+  width: 100%;
+}
+
+.pdf_btn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pdf_btn button {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--card-lv2, #0075BD);
+  height: 56px;
+    width: 100%;
+    flex: 1;
+    border-radius: 9px;
+    border: #fff2 1px solid;
+    outline: transparent;
+    padding: 1rem;
+    font-size: 1rem;
+    background: #ebe;
+    accent-color: #daa520;
+}
+
 label {
    display: flex;
    flex-direction: column;

@@ -36,7 +36,7 @@ export default function OrcamentoBase ({
   const PageBreak = () => <div style={{ pageBreakAfter: 'always' }} id="break-page"></div>;
 
   return( <>
-    <div className="home-page">
+    <View as="home-page">
       {/* O ID 'invoice_html' é usado pela função generatePDF para saber qual elemento imprimir */}
       <View as="view" id="invoice_html">
         <EACard section="dual" />
@@ -93,13 +93,15 @@ export default function OrcamentoBase ({
         <Signatures />
       </View>
 
-    </div>
+    </View>
     <footer>
-      <div>
-        <button id="btn_createPDF" onClick={handleDownloadPDF}>
-          Baixar em PDF
-        </button>
-      </div>
+      <View as="content">
+        <View as="btn" className="pdf_btn">
+          <button id="btn_createPDF" onClick={handleDownloadPDF}>
+            Baixar em PDF
+          </button>
+        </View>
+      </View>
     </footer>
   </> );
 };

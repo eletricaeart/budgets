@@ -1,5 +1,6 @@
 
 import { View } from '../widgets';
+import './DocTitle.css';
 
 export default function DocTitle ({ subtitle, emissao, validade, children }: { subtitle: string, emissao: string, validade: string, children: React.ReactNode }) {
   const titleStyle = {
@@ -30,21 +31,21 @@ export default function DocTitle ({ subtitle, emissao, validade, children }: { s
   };
 
   return( <>
-    <div className="doc-title">
+    <View as='doc-title'>
       {subtitle && (
-        <View as ='p' style={subtitleStyle}>
+        <View as='t' className='subtitle'>
           {subtitle}
         </View>
       )}
-      <View as='p' style={titleStyle}>
+      <View as='t' className='title'>
         {children}
       </View>
-      <View as ='div' id="doc_id" style={detailsStyle}>
+      <View as='t' id="doc_id" className='detailsStyle'>
         <b>Data de Emissão: </b>
-        <span>{emissao}</span>
-        <span style={separatorStyle}> | </span>
+        <View as='t'>{emissao}</View>
+        <View as='t' className='separatorStyle'> | </View>
         <b>Validade da Proposta: </b>
-        <span>{validade}</span>
+        <View as='t'>{validade}</View>
       </View>
     </View>
   </> );

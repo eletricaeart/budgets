@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { View } from '../widgets';
+import './Article.css';
 
 export default function Article ({ label, className, children }: { label?: string, className?: string, children?: React.ReactNode }) {
   const headerTextStyle: React.CSSProperties = {
@@ -12,15 +13,15 @@ export default function Article ({ label, className, children }: { label?: strin
   if( label ) {
     return( <>
       <article className={className}>
-        <View className="article-wrapper">
+        <View as='ui' className="article-wrapper">
           <header className="article-header">
-            <View>
-            <p style={headerTextStyle}>
-              {label}
-            </p>
+            <View as='ui'>
+              <View as='t' className='headerTextStyle'>
+                {label}
+              </View>
             </View>
           </header>
-          <View className="article-content">
+          <View as='content' className="article-content">
             {children}
           </View>
         </View>

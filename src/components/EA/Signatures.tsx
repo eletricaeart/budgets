@@ -1,5 +1,6 @@
 
 import { View } from "../widgets";
+import './Signatures.css';
 
 export default function Signatures ({ signer1 = "Rafael - Elétrica&Art", signer2 = "Assinatura do Cliente" }: { signer1?: string, signer2?: string }) {
   return( <>

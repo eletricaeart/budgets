@@ -7,11 +7,11 @@ export default function Section ({ label, className, children }: { label?: strin
   if( label ) {
     return( <>
       <section className={className}>
-        <View className="section-wrapper">
+        <View as='ui' className="section-wrapper">
           <header className="section-header">
-            <h6>{label}</h6>
+            <View as="t6">{label}</View>
           </header>
-          <View className="section-content">
+          <View as='content' className="section-content">
             {children}
           </View>
         </View>

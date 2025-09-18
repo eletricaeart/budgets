@@ -4,25 +4,25 @@ import { View } from '../widgets';
 
 export default function Cliente ({ nome, endereço, children }: { nome: string, endereço: string, children?: React.ReactNode }) {
   return( <>
-    <View className="cliente-container">
-      <View>
+    <View as='cliente' className="cliente-container">
+      <View as='ui'>
         <header className="cliente-header">
-          <View>
+          <View as='ui'>
             Cliente
           </View>
         </header>
-        <View className="cliente-content">
-          <View className="card">
-            <View>
+        <View as='content' className="cliente-content">
+          <View as='card' className="card">
+            <View as='ui' style={{flexFlow:"column"}}>
               {nome && (
-                <p>
+                <View as='t'>
                   <b>Nome: </b> {nome}
-                </p>
+                </View>
               )}
               {endereço && (
-                <p>
+                <View as='t'>
                   <b>Endereço: </b> {endereço}
-                </p>
+                </View>
               )}
               {children}
             </View>
