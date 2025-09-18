@@ -1,0 +1,402 @@
+/* BudgetForm.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+    background-color: #27a;
+    overflow: hidden;
+    padding: 1rem;
+  min-height: 68px;
+}
+
+.navbar a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.budget_descs {
+  background: #29f;
+  padding: 1.5rem;
+}
+.budget_descs label {
+  color: #fff;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-field {
+  display: flex;
+  flex-flow: column;
+  padding: .5rem 0;
+  gap: .5rem;
+}
+
+.inputy {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  height: 56px;
+  padding: .8rem 1rem;
+  gap: .5rem;
+  border-radius: .8rem;
+  background: #e5e5e5
+}
+.inputy > input {
+  background-color: transparent;
+  border: transparent !important;
+  padding: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  outline: transparent !important;
+}
+.grid-1-2 {
+  display: grid;
+  grid-template-columns: calc( 50% - .5rem ) calc( 50% - .5rem );
+  gap: 1rem;
+}
+
+.client-section,
+.service-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%; /* Added for consistency */
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#updateServiceBtn {
+    background-color: #008CBA;
+}
+
+#updateServiceBtn:hover {
+    background-color: #007B9E;
+}
+
+#cancelEditBtn {
+    background-color: #f44336;
+}
+
+#cancelEditBtn:hover {
+    background-color: #da190b;
+}
+
+#saveAllDataBtn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    margin-top: 30px;
+}
+
+#saveAllDataBtn:hover {
+    background-color: #555;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+table td button.edit-btn {
+    background-color: #ffc107;
+    color: #333;
+}
+
+table td button.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+table td button.delete-btn {
+    background-color: #dc3545;
+}
+
+table td button.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.title-container {
+  display: flex;
+  padding: 1rem .5rem;
+  gap: 5px;
+  align-items: center;
+  background: #29f;
+  color: #fff;
+  text-transform: capitalize;
+}
+.title-container > input {
+  height: auto;
+  border: transparent;
+  margin: 0;
+  background-color: transparent;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.scope-section .editor-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.scope-section .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 0;
+  align-items: center;
+  justify-content: space-between;
+    background-color: #1b1d22;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.scope-section .toolbar label {
+  color: #fff;
+}
+
+.scope-section .toolbar button {
+  background: #515359 !important;
+  border: transparent !important;
+}
+
+.scope-section .toolbar input[type="color"] {
+  background-color: transparent !important;
+  border: transparent !important;
+}
+
+.scope-section .editor {
+    min-height: 150px; /* Slightly smaller than main editor */
+    padding: 10px;
+    outline: none;
+}
+
+.editor-section {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    overflow: hidden; /* To contain floats */
+}
+
+.toolbar button.clicked {
+    background-color: #4CAF50 !important;
+    color: white;
+}
+
+/* General styles from globals.css that might be relevant */
+*,
+*::before,
+*::after {
+   margin:0; 
+   padding:0; 
+   box-sizing:border-box;
+}
+
+:root {
+   font: 1em "inter";
+   font-weight: 400;
+   --text-color: #333;
+   --btn-bg: #27f;
+   --ground: #fff;
+}
+
+html {
+   scroll-behavior: smooth;
+}
+
+body {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   flex: 1;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, t, txt, tt, st {
+   overflow-wrap: break-word;
+}
+
+label {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+label > t, lt {
+   font: 14px sans-serif;
+   padding: 0 1rem;
+}
+
+input, [input], textarea {
+   height: 56px;
+   width: 100%;
+   flex: 1;
+   border-radius: 9px;
+   border: #fff2 1px solid;
+   outline: transparent;
+   padding: 1rem;
+   font-size: 1rem;
+   background: var( --bg );
+   color: var( --text-color );
+   accent-color: var( --accent, #daa520 );
+}
+
+:is( td, td, th ) :where( input[type="text"], input[type="number"], input[type="tel"], input[type="email"], input[type="date"] ) {
+   padding: 0 !important;
+   background: transparent !important;
+   font-size: inherit !important;
+   width: 100% !important;
+   height: 100% !important;
+   font-family: inherit !important;
+}
+
+input[type="submit"],
+input[type="button"],
+btn, button {
+   background-color: var( --btn-simp, #27f3 );
+   background-image: linear-gradient( to bottom, #fff #fff );
+   text-transform: uppercase;
+   font-weight: bold;
+   color: var( --card-lv2 );
+}
+
+button a, input[type="submit"] {
+   color: var(--ground);
+}
+
+form {
+   background: var( --form-bg );
+   border-radius: 1.5rem;
+   padding-bottom: 1rem;
+}
+
+form .divider {
+   display: flex;
+   align-items: center;
+   border-bottom: var( --card-lv3 ) 2px dashed;
+}
+form .divider content {
+   padding: 4px 0;
+   font-weight: bold;
+}
+
+.multi {
+   flex-direction: row !important;
+   gap: 1rem;
+}
+
+i {
+   display: grid !important;
+   place-items: center;
+   width: 48px;
+   height: 48px;
+   aspect-ratio: 1;
+}
+
+i[xs] { width: 24px; height: 24px; }
+i[s] { width: 36px; height: 36px; }
+i[m] { width: 48px; height: 48px; }
+i[g] { width: 72px; height: 72px; }
+i[xg] { width: 96px; height: 96px; }
+
+
+/* Variables from globals.css */
+:root {
+   --bg: #e5e5e5;
+   --bg2: #f5f5f5;
+   --ground: #fff;
+   --card-lv1: #00559C;
+   --card-lv2: #0075BD;
+   --card-lv3: #009ee6;
+   --text-color: #333;
+   --btn-bg: var( --card-lv1 );
+   --form-bg: var( --bg2 );
+}
