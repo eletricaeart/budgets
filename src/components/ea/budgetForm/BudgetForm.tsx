@@ -237,13 +237,14 @@ const BudgetForm: React.FC = () => {
           <h2>Escopo dos Serviços</h2>
 
           <div id="scopeEditorsContainer">
-            {currentBudget.scopeSections.map((section) => (
+            {currentBudget.scopeSections.map((section, index) => (
               <ScopeSection
                 key={section.id}
                 id={section.id}
                 initialContent={section.content}
                 onContentChange={(content) => handleScopeContentChange(section.id, content)}
                 onTitleChange={(title) => handleScopeTitleChange(section.id, title)}
+                sectionNumber={index + 1}
               />
             ))}
           </div>
