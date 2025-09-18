@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
+import ScopeSection from './ScopeSection';
 import './BudgetForm.css';
+
+interface ScopeSectionData {
+  id: number;
+  title: string;
+  content: string;
+}
 
 const BudgetForm: React.FC = () => {
   const [issueDate, setIssueDate] = useState('');
@@ -12,6 +19,7 @@ const BudgetForm: React.FC = () => {
   const [serviceQuantity, setServiceQuantity] = useState(1);
   const [serviceUnitPrice, setServiceUnitPrice] = useState(0.00);
   const [services, setServices] = useState<any[]>([]); // TODO: Define a proper type for services
+  const [scopeSections, setScopeSections] = useState<ScopeSectionData[]>([{ id: 1, title: '', content: '' }]);
 
   const handleAddService = () => {
     const newService = {
@@ -31,6 +39,22 @@ const BudgetForm: React.FC = () => {
 
   const calculateServiceTotal = () => {
     return serviceQuantity * serviceUnitPrice;
+  };
+
+  const addNewScopeSection = () => {
+    setScopeSections([...scopeSections, { id: scopeSections.length + 1, title: '', content: '' }]);
+  };
+
+  const handleScopeContentChange = (id: number, content: string) => {
+    setScopeSections(scopeSections.map(section =>
+      section.id === id ? { ...section, content } : section
+    ));
+  };
+
+  const handleScopeTitleChange = (id: number, title: string) => {
+    setScopeSections(scopeSections.map(section =>
+      section.id === id ? { ...section, title } : section
+    ));
   };
 
   return (
@@ -106,47 +130,17 @@ const BudgetForm: React.FC = () => {
         <div className="scope-section">
           <h2>Escopo dos Serviços</h2>
 
-          {/* Simplified Rich Text Editor Section */}
-          <section className="editor-section">
-            <div className="title-container">
-              <p className="section-display-title">Seção de Exemplo</p>
-              <input type="text" className="section-title-input" placeholder="Adicionar título" />
-            </div>
-            <div className="toolbar">
-              {/* Toolbar buttons can be added here, but their functionality would require a dedicated RTE library */}
-              <button><b>B</b></button>
-              <button><i>I</i></button>
-              <button><u>U</u></button>
-              <button>OL</button>
-              <button>UL</button>
-              <button>Texto</button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-left" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
-                </svg>
-              </button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-center" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
-                </svg>
-              </button>
-              <button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-right" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
-                </svg>
-              </button>
-              <button>Link</button>
-              <label htmlFor="foreColor">Cor</label>
-              <input type="color" />
-              <label htmlFor="backColor">Marcador</label>
-              <input type="color" />
-              <button>Imagem URL</button>
-              <button>Imagem Upload</button>
-            </div>
-            <div className="editor" contentEditable="true" suppressContentEditableWarning={true}></div>
-          </section>
-
-          <button id="addNewSectionBtn">Adicionar Nova Seção</button>
+          <div id="scopeEditorsContainer">
+            {scopeSections.map((section) => (
+              <ScopeSection
+                key={section.id}
+                initialContent={section.content}
+                onContentChange={(content) => handleScopeContentChange(section.id, content)}
+                onTitleChange={(title) => handleScopeTitleChange(section.id, title)}
+              />
+            ))}
+          </div>
+          <button id="addNewSectionBtn" onClick={addNewScopeSection}>Adicionar Nova Seção</button>
           <input type="file" id="imageUpload" accept="image/*" style={{ display: 'none' }} />
         </div>
 

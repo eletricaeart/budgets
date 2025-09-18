@@ -220,56 +220,6 @@ table td button.delete-btn:hover {
   text-transform: capitalize;
 }
 
-.scope-section .editor-container {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.scope-section .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 0;
-  align-items: center;
-  justify-content: space-between;
-    background-color: #1b1d22;
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-.scope-section .toolbar label {
-  color: #fff;
-}
-
-.scope-section .toolbar button {
-  background: #515359 !important;
-  border: transparent !important;
-}
-
-.scope-section .toolbar input[type="color"] {
-  background-color: transparent !important;
-  border: transparent !important;
-}
-
-.scope-section .editor {
-    min-height: 150px; /* Slightly smaller than main editor */
-    padding: 10px;
-    outline: none;
-}
-
-.editor-section {
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    overflow: hidden; /* To contain floats */
-}
-
-.toolbar button.clicked {
-    background-color: #4CAF50 !important;
-    color: white;
-}
 
 /* General styles from globals.css that might be relevant */
 *,

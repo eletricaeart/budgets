@@ -1,0 +1,61 @@
+/* RichTextEditor.css */
+
+.rich-text-editor-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 15px; /* Added for spacing */
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 0;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1b1d22;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.toolbar label {
+  color: #fff;
+}
+
+.toolbar button {
+  background: #515359 !important;
+  border: transparent !important;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.toolbar button:hover {
+  background-color: #6a6e75 !important;
+}
+
+.toolbar input[type="color"] {
+  background-color: transparent !important;
+  border: transparent !important;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.editor {
+  min-height: 150px;
+  padding: 10px;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+}
+
+.toolbar button.clicked {
+    background-color: #4CAF50 !important;
+    color: white;
+}
