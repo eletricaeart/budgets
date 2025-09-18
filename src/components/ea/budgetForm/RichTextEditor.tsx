@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './RichTextEditor.css';
 
@@ -12,7 +13,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
 
   // Effect to initialize the DOM when initialContent changes externally
   useEffect(() => {
-    if (editorRef.current && editorRef.current.innerHTML !== initialContent) {
+    if( editorRef.current && editorRef.current.innerHTML !== initialContent ) {
       editorRef.current.innerHTML = initialContent;
     }
   }, [initialContent]);
@@ -118,7 +119,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   return (
     <div className="rich-text-editor-container">
       <div className="toolbar" onClick={handleToolbarClick}>
-        <button data-command="bold"><b>B</b></button>
+        <button data-command="bold" style={{ background: '#27f !important' }}><b>B</b></button>
         <button data-command="italic"><i>I</i></button>
         <button data-command="underline"><u>U</u></button>
         <button data-command="insertOrderedList">OL</button>

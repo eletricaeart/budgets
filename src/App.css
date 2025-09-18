@@ -1,4 +1,6 @@
 
+@import "tailwindcss";
+
 body {
   font: 1em "inter";
   font-weight: 400;
