@@ -4,10 +4,10 @@ import { View } from '../widgets';
 import './Article.css';
 
 export default function Article ({ label, className, children }: { label?: string, className?: string, children?: React.ReactNode }) {
-  const headerTextStyle: React.CSSProperties = {
-    fontWeight: 700,
-    textTransform: 'uppercase',
-  };
+  // const headerTextStyle: React.CSSProperties = {
+  //   fontWeight: 700,
+  //   textTransform: 'uppercase',
+  // };
 
   // The original script only adds the wrapper if a 'label' exists.
   if( label ) {
