@@ -40,8 +40,8 @@ const generatePDF = (elementId: string, filename = 'document') => {
       precision: 1,
       compress: true,
       encryption: {
-        userPassword: '787900',
-        ownerPassword: '7879',
+        // userPassword: '787900',
+        // ownerPassword: '7879',
         userPermissions: ['print'],
       },
     },
