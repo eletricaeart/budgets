@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ScopeSection from './ScopeSection';
 import './BudgetForm.css';
+import { View } from '../../widgets';
+import DropdownCustomizado from '../../widgets/Selections';
 
 // Simple ID generator (replaces uuid for this context)
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -43,6 +45,18 @@ const LOCAL_STORAGE_KEYS = {
 };
 
 const BudgetForm: React.FC = () => {
+  const warrantyTimeOptions = [
+    '15 dias',
+    '30 dias',
+    '60 dias',
+    '90 dias',
+    '6 meses',
+    '1 ano',
+    '2 anos',
+    '3 anos',
+    '5 anos',
+    'customizado',
+  ] as const;
   const [currentClient, setCurrentClient] = useState<Client>({
     id: generateId(),
     name: '',
@@ -51,8 +65,9 @@ const BudgetForm: React.FC = () => {
   const [currentBudget, setCurrentBudget] = useState<Budget>({
     id: generateId(),
     clientId: currentClient.id,
-    issueDate: '',
-    dueDate: '',
+    // issueDate: new Date().toISOString().split('T')[0],
+    issueDate: new Date().toISOString().slice(0, 10),
+    dueDate: '15',
     warrantyValidity: 0,
     scopeSections: [{ id: generateId(), title: '', content: '' }],
   });
@@ -163,55 +178,52 @@ const BudgetForm: React.FC = () => {
     alert('Dados salvos com sucesso!');
   };
 
-  return (
-    <>
+  return( <>
       <nav className="navbar">
         <a href="/">Home</a>
       </nav>
 
       <h1>Cadastro de Cliente e Serviços (WIP)</h1>
 
-      <div className="budget_descs">
-        <div className="grid-1-2">
-          <div className="input-field">
-            <label htmlFor="issueDate">Emissão</label>
+      <View as="budget_descs">
+        <View as="grid-1-2">
+          <View as="input-field">
+            <label htmlFor="issueDate">Data da Emissão</label>
             <input
               type="date"
               id="issueDate"
               value={currentBudget.issueDate}
               onChange={(e) => setCurrentBudget(prev => ({ ...prev, issueDate: e.target.value }))}
             />
-          </div>
+          </View>
 
-          <div className="input-field">
-            <label htmlFor="dueDate">Vencimento</label>
+          <View as="input-field">
+            <label htmlFor="dueDate">Dias de Validade</label>
             <input
-              type="date"
+              type="number"
               id="dueDate"
               value={currentBudget.dueDate}
               onChange={(e) => setCurrentBudget(prev => ({ ...prev, dueDate: e.target.value }))}
             />
-          </div>
-        </div>
+          </View>
+        </View>
 
-        <div className="grid-1-2">
-          <div className="input-field">
-            <label htmlFor="warrantyValidity">Garantia</label>
-            <div className="inputy">
-              <input
-                type="number"
-                id="warrantyValidity"
-                value={currentBudget.warrantyValidity}
-                onChange={(e) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: Number(e.target.value) }))}
-              />
-              <text>meses</text>
-            </div>
-          </div>
-        </div>
-      </div>
+        <View as="grid-1-2">
+          <View as="input-field">
+            <label htmlFor="warrantyValidity">Tempo de Garantia</label>
+            <DropdownCustomizado opcoes={ warrantyTimeOptions } valorPadrao='6 meses' />
+              {/* <input */}
+              {/*   type="number" */}
+              {/*   id="warrantyValidity" */}
+              {/*   value={currentBudget.warrantyValidity} */}
+              {/*   onChange={(e) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: Number(e.target.value) }))} */}
+              {/* /> */}
+          </View>
+        </View>
+      </View>
 
-      <div className="container">
-        <div className="client-section">
+      <View as="container">
+        <View as="client-section">
           <h2>Dados do Cliente</h2>
           <label htmlFor="clientName">Nome do Cliente:</label>
           <input
@@ -231,12 +243,12 @@ const BudgetForm: React.FC = () => {
             value={currentClient.address}
             onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
           />
-        </div>
+        </View>
 
-        <div className="scope-section">
+        <View as="scope-section">
           <h2>Escopo dos Serviços</h2>
 
-          <div id="scopeEditorsContainer">
+          <View id="scopeEditorsContainer">
             {currentBudget.scopeSections.map((section, index) => (
               <ScopeSection
                 key={section.id}
@@ -247,14 +259,14 @@ const BudgetForm: React.FC = () => {
                 sectionNumber={index + 1}
               />
             ))}
-          </div>
+          </View>
           <button id="addNewSectionBtn" onClick={addNewScopeSection}>Adicionar Nova Seção</button>
           <input type="file" id="imageUpload" accept="image/*" style={{ display: 'none' }} />
-        </div>
+        </View>
 
-        <div className="service-section">
+        <View className="service-section">
           <h2>Serviços</h2>
-          <div className="service-form">
+          <View className="service-form">
             <input type="hidden" id="serviceIndex" />
             <label htmlFor="serviceName">Nome do Serviço:</label>
             <input
@@ -307,7 +319,7 @@ const BudgetForm: React.FC = () => {
             <button id="cancelEditBtn" style={{ display: 'none' }}>
               Cancelar Edição
             </button>
-          </div>
+          </View>
 
           <h3>Serviços Adicionados</h3>
           <table id="servicesTable">
@@ -336,10 +348,10 @@ const BudgetForm: React.FC = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </View>
 
         <button id="saveAllDataBtn" onClick={saveAllData}>Salvar Todos os Dados</button>
-      </div>
+      </View>
     </>
   );
 };
