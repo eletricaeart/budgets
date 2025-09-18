@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import RichTextEditor from './RichTextEditor';
 
 interface ScopeSectionProps {
+  id: string;
   initialContent?: string;
   onContentChange: (content: string) => void;
   onTitleChange: (title: string) => void;

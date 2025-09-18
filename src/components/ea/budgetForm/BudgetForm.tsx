@@ -1,35 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ScopeSection from './ScopeSection';
 import './BudgetForm.css';
 
+// Simple ID generator (replaces uuid for this context)
+const generateId = () => Math.random().toString(36).substr(2, 9);
+
+interface Client {
+  id: string;
+  name: string;
+  address: string;
+}
+
+interface Service {
+  id: string;
+  budgetId: string; // Foreign key to Budget
+  name: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
 interface ScopeSectionData {
-  id: number;
+  id: string;
   title: string;
   content: string;
 }
 
+interface Budget {
+  id: string;
+  clientId: string; // Foreign key to Client
+  issueDate: string;
+  dueDate: string;
+  warrantyValidity: number;
+  scopeSections: ScopeSectionData[];
+}
+
+const LOCAL_STORAGE_KEYS = {
+  CLIENTS: 'budgetApp_clients',
+  BUDGETS: 'budgetApp_budgets',
+  SERVICES: 'budgetApp_services',
+};
+
 const BudgetForm: React.FC = () => {
-  const [issueDate, setIssueDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [warrantyValidity, setWarrantyValidity] = useState(0);
-  const [clientName, setClientName] = useState('');
-  const [clientAddress, setClientAddress] = useState('');
+  const [currentClient, setCurrentClient] = useState<Client>({
+    id: generateId(),
+    name: '',
+    address: '',
+  });
+  const [currentBudget, setCurrentBudget] = useState<Budget>({
+    id: generateId(),
+    clientId: currentClient.id,
+    issueDate: '',
+    dueDate: '',
+    warrantyValidity: 0,
+    scopeSections: [{ id: generateId(), title: '', content: '' }],
+  });
+  const [currentServices, setCurrentServices] = useState<Service[]>([]);
+
   const [serviceName, setServiceName] = useState('');
   const [serviceDescription, setServiceDescription] = useState('');
   const [serviceQuantity, setServiceQuantity] = useState(1);
   const [serviceUnitPrice, setServiceUnitPrice] = useState(0.00);
-  const [services, setServices] = useState<any[]>([]); // TODO: Define a proper type for services
-  const [scopeSections, setScopeSections] = useState<ScopeSectionData[]>([{ id: 1, title: '', content: '' }]);
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const savedBudgets = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.BUDGETS) || '{}');
+    const savedClients = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.CLIENTS) || '{}');
+    const savedServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.SERVICES) || '{}');
+
+    // For simplicity, load the first budget found or create a new one
+    const budgetIds = Object.keys(savedBudgets);
+    if (budgetIds.length > 0) {
+      const firstBudgetId = budgetIds[0];
+      const budget = savedBudgets[firstBudgetId];
+      setCurrentBudget(budget);
+
+      const client = savedClients[budget.clientId];
+      if (client) {
+        setCurrentClient(client);
+      }
+
+      const servicesForBudget = Object.values(savedServices).filter(
+        (service: any) => service.budgetId === firstBudgetId
+      ) as Service[];
+      setCurrentServices(servicesForBudget);
+    } else {
+      // Initialize with new IDs if no data found
+      const newClientId = generateId();
+      const newBudgetId = generateId();
+      setCurrentClient(prev => ({ ...prev, id: newClientId }));
+      setCurrentBudget(prev => ({ ...prev, id: newBudgetId, clientId: newClientId }));
+      setCurrentServices([]);
+    }
+  }, []);
 
   const handleAddService = () => {
-    const newService = {
+    const newService: Service = {
+      id: generateId(),
+      budgetId: currentBudget.id,
       name: serviceName,
       description: serviceDescription,
       quantity: serviceQuantity,
       unitPrice: serviceUnitPrice,
       total: serviceQuantity * serviceUnitPrice,
     };
-    setServices([...services, newService]);
+    setCurrentServices([...currentServices, newService]);
     // Clear service form
     setServiceName('');
     setServiceDescription('');
@@ -42,19 +118,49 @@ const BudgetForm: React.FC = () => {
   };
 
   const addNewScopeSection = () => {
-    setScopeSections([...scopeSections, { id: scopeSections.length + 1, title: '', content: '' }]);
+    setCurrentBudget(prevBudget => ({
+      ...prevBudget,
+      scopeSections: [...prevBudget.scopeSections, { id: generateId(), title: '', content: '' }],
+    }));
   };
 
-  const handleScopeContentChange = (id: number, content: string) => {
-    setScopeSections(scopeSections.map(section =>
-      section.id === id ? { ...section, content } : section
-    ));
+  const handleScopeContentChange = (id: string, content: string) => {
+    setCurrentBudget(prevBudget => ({
+      ...prevBudget,
+      scopeSections: prevBudget.scopeSections.map(section =>
+        section.id === id ? { ...section, content } : section
+      ),
+    }));
   };
 
-  const handleScopeTitleChange = (id: number, title: string) => {
-    setScopeSections(scopeSections.map(section =>
-      section.id === id ? { ...section, title } : section
-    ));
+  const handleScopeTitleChange = (id: string, title: string) => {
+    setCurrentBudget(prevBudget => ({
+      ...prevBudget,
+      scopeSections: prevBudget.scopeSections.map(section =>
+        section.id === id ? { ...section, title } : section
+      ),
+    }));
+  };
+
+  const saveAllData = () => {
+    // Save client
+    const clients = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.CLIENTS) || '{}');
+    clients[currentClient.id] = currentClient;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.CLIENTS, JSON.stringify(clients));
+
+    // Save budget
+    const budgets = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.BUDGETS) || '{}');
+    budgets[currentBudget.id] = { ...currentBudget, clientId: currentClient.id }; // Ensure clientId is correct
+    localStorage.setItem(LOCAL_STORAGE_KEYS.BUDGETS, JSON.stringify(budgets));
+
+    // Save services
+    const allServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.SERVICES) || '{}');
+    currentServices.forEach(service => {
+      allServices[service.id] = { ...service, budgetId: currentBudget.id }; // Ensure budgetId is correct
+    });
+    localStorage.setItem(LOCAL_STORAGE_KEYS.SERVICES, JSON.stringify(allServices));
+
+    alert('Dados salvos com sucesso!');
   };
 
   return (
@@ -72,8 +178,8 @@ const BudgetForm: React.FC = () => {
             <input
               type="date"
               id="issueDate"
-              value={issueDate}
-              onChange={(e) => setIssueDate(e.target.value)}
+              value={currentBudget.issueDate}
+              onChange={(e) => setCurrentBudget(prev => ({ ...prev, issueDate: e.target.value }))}
             />
           </div>
 
@@ -82,8 +188,8 @@ const BudgetForm: React.FC = () => {
             <input
               type="date"
               id="dueDate"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
+              value={currentBudget.dueDate}
+              onChange={(e) => setCurrentBudget(prev => ({ ...prev, dueDate: e.target.value }))}
             />
           </div>
         </div>
@@ -95,8 +201,8 @@ const BudgetForm: React.FC = () => {
               <input
                 type="number"
                 id="warrantyValidity"
-                value={warrantyValidity}
-                onChange={(e) => setWarrantyValidity(Number(e.target.value))}
+                value={currentBudget.warrantyValidity}
+                onChange={(e) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: Number(e.target.value) }))}
               />
               <text>meses</text>
             </div>
@@ -113,8 +219,8 @@ const BudgetForm: React.FC = () => {
             id="clientName"
             placeholder="Nome Completo"
             autoFocus
-            value={clientName}
-            onChange={(e) => setClientName(e.target.value)}
+            value={currentClient.name}
+            onChange={(e) => setCurrentClient(prev => ({ ...prev, name: e.target.value }))}
           />
 
           <label htmlFor="clientAddress">Endereço do Cliente:</label>
@@ -122,8 +228,8 @@ const BudgetForm: React.FC = () => {
             type="text"
             id="clientAddress"
             placeholder="Endereço Completo"
-            value={clientAddress}
-            onChange={(e) => setClientAddress(e.target.value)}
+            value={currentClient.address}
+            onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
           />
         </div>
 
@@ -131,9 +237,10 @@ const BudgetForm: React.FC = () => {
           <h2>Escopo dos Serviços</h2>
 
           <div id="scopeEditorsContainer">
-            {scopeSections.map((section) => (
+            {currentBudget.scopeSections.map((section) => (
               <ScopeSection
                 key={section.id}
+                id={section.id}
                 initialContent={section.content}
                 onContentChange={(content) => handleScopeContentChange(section.id, content)}
                 onTitleChange={(title) => handleScopeTitleChange(section.id, title)}
@@ -214,8 +321,8 @@ const BudgetForm: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {services.map((service, index) => (
-                <tr key={index}>
+              {currentServices.map((service) => (
+                <tr key={service.id}>
                   <td>{service.name}</td>
                   <td>{service.description}</td>
                   <td>{service.quantity}</td>
@@ -230,7 +337,7 @@ const BudgetForm: React.FC = () => {
           </table>
         </div>
 
-        <button id="saveAllDataBtn">Salvar Todos os Dados</button>
+        <button id="saveAllDataBtn" onClick={saveAllData}>Salvar Todos os Dados</button>
       </div>
     </>
   );
