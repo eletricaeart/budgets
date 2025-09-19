@@ -2502,3 +2502,19 @@ th, td {
 
 th { background-color: #f2f2f2; }
 
+select, input, textarea {
+  padding: 10px !important;
+  margin-bottom: 0 !important;
+  border: 1px solid #ccc;
+  border-radius: .8rem !important;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px !important;
+  min-height: 56px !important;
+  flex: 1;
+  outline: transparent;
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text-color);
+  accent-color: var(--accent, #daa520);
+}

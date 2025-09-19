@@ -11,7 +11,7 @@ interface DropdownProps {
 
 // 2. O componente agora recebe as props desestruturadas.
 // Repare que ele não tem mais a lista de opções "fixa".
-const DropdownCustomizado: React.FC<DropdownProps> = ({ opcoes, valorPadrao }) => {
+const Selections: React.FC<DropdownProps> = ({ opcoes, valorPadrao }) => {
   // A mágica acontece aqui! O hook agora usa as props que a gente passou.
   const [opcaoSelecionada, setOpcaoSelecionada, textoCustomizado, setTextoCustomizado] =
     useDropdown(opcoes, valorPadrao);
@@ -47,4 +47,4 @@ const DropdownCustomizado: React.FC<DropdownProps> = ({ opcoes, valorPadrao }) =
   );
 };
 
-export default DropdownCustomizado;
+export default Selections;

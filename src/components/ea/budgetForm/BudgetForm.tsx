@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ScopeSection from './ScopeSection';
 import './BudgetForm.css';
 import { View } from '../../widgets';
-import DropdownCustomizado from '../../widgets/Selections';
+import Selections from '../../widgets/Selections';
 
 // Simple ID generator (replaces uuid for this context)
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -34,7 +34,7 @@ interface Budget {
   clientId: string; // Foreign key to Client
   issueDate: string;
   dueDate: string;
-  warrantyValidity: number;
+  warrantyValidity: string;
   scopeSections: ScopeSectionData[];
 }
 
@@ -68,7 +68,7 @@ const BudgetForm: React.FC = () => {
     // issueDate: new Date().toISOString().split('T')[0],
     issueDate: new Date().toISOString().slice(0, 10),
     dueDate: '15',
-    warrantyValidity: 0,
+    warrantyValidity: '6 meses',
     scopeSections: [{ id: generateId(), title: '', content: '' }],
   });
   const [currentServices, setCurrentServices] = useState<Service[]>([]);
@@ -105,7 +105,7 @@ const BudgetForm: React.FC = () => {
       const newClientId = generateId();
       const newBudgetId = generateId();
       setCurrentClient(prev => ({ ...prev, id: newClientId }));
-      setCurrentBudget(prev => ({ ...prev, id: newBudgetId, clientId: newClientId }));
+      setCurrentBudget(prev => ({ ...prev, id: newBudgetId, clientId: newClientId, warrantyValidity: '6 meses' }));
       setCurrentServices([]);
     }
   }, []);
@@ -211,13 +211,11 @@ const BudgetForm: React.FC = () => {
         <View as="grid-1-2">
           <View as="input-field">
             <label htmlFor="warrantyValidity">Tempo de Garantia</label>
-            <DropdownCustomizado opcoes={ warrantyTimeOptions } valorPadrao='6 meses' />
-              {/* <input */}
-              {/*   type="number" */}
-              {/*   id="warrantyValidity" */}
-              {/*   value={currentBudget.warrantyValidity} */}
-              {/*   onChange={(e) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: Number(e.target.value) }))} */}
-              {/* /> */}
+            <Selections
+              opcoes={warrantyTimeOptions}
+              valorPadrao={currentBudget.warrantyValidity || '6 meses'}
+              onSelect={(value) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: value }))}
+            />
           </View>
         </View>
       </View>
@@ -225,24 +223,28 @@ const BudgetForm: React.FC = () => {
       <View as="container">
         <View as="client-section">
           <h2>Dados do Cliente</h2>
-          <label htmlFor="clientName">Nome do Cliente:</label>
-          <input
-            type="text"
-            id="clientName"
-            placeholder="Nome Completo"
-            autoFocus
-            value={currentClient.name}
-            onChange={(e) => setCurrentClient(prev => ({ ...prev, name: e.target.value }))}
-          />
+          <View as='input_field'>
+            <label htmlFor="clientName">Nome do Cliente:</label>
+            <input
+              type="text"
+              id="clientName"
+              placeholder="Nome Completo"
+              autoFocus
+              value={currentClient.name}
+              onChange={(e) => setCurrentClient(prev => ({ ...prev, name: e.target.value }))}
+            />
+          </View>
 
-          <label htmlFor="clientAddress">Endereço do Cliente:</label>
-          <input
-            type="text"
-            id="clientAddress"
-            placeholder="Endereço Completo"
-            value={currentClient.address}
-            onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
-          />
+          <View as="input_field">
+            <label htmlFor="clientAddress">Endereço do Cliente:</label>
+            <input
+              type="text"
+              id="clientAddress"
+              placeholder="Endereço Completo"
+              value={currentClient.address}
+              onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
+            />
+          </View>
         </View>
 
         <View as="scope-section">
@@ -266,8 +268,9 @@ const BudgetForm: React.FC = () => {
 
         <View className="service-section">
           <h2>Serviços</h2>
-          <View className="service-form">
+          <View as="service-form">
             <input type="hidden" id="serviceIndex" />
+          <View as="input_field">
             <label htmlFor="serviceName">Nome do Serviço:</label>
             <input
               type="text"
@@ -276,7 +279,9 @@ const BudgetForm: React.FC = () => {
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
             />
+          </View>
 
+          <View as="input_field">
             <label htmlFor="serviceDescription">Descrição:</label>
             <textarea
               id="serviceDescription"
@@ -284,7 +289,9 @@ const BudgetForm: React.FC = () => {
               value={serviceDescription}
               onChange={(e) => setServiceDescription(e.target.value)}
             ></textarea>
+          </View>
 
+          <View as="input_field">
             <label htmlFor="serviceQuantity">Quantidade:</label>
             <input
               type="number"
@@ -293,7 +300,9 @@ const BudgetForm: React.FC = () => {
               min="1"
               onChange={(e) => setServiceQuantity(Number(e.target.value))}
             />
+          </View>
 
+          <View as="input_field">
             <label htmlFor="serviceUnitPrice">Valor Unitário:</label>
             <input
               type="number"
@@ -303,7 +312,9 @@ const BudgetForm: React.FC = () => {
               step="0.01"
               onChange={(e) => setServiceUnitPrice(Number(e.target.value))}
             />
+          </View>
 
+          <View as="input_field">
             <label htmlFor="serviceTotalValue">Valor Total:</label>
             <input
               type="number"
@@ -311,6 +322,7 @@ const BudgetForm: React.FC = () => {
               value={calculateServiceTotal().toFixed(2)}
               readOnly
             />
+          </View>
 
             <button id="addServiceBtn" onClick={handleAddService}>Adicionar Serviço</button>
             <button id="updateServiceBtn" style={{ display: 'none' }}>
