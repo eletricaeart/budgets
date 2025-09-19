@@ -1,19 +1,20 @@
+
 import React from 'react';
-import { useDropdown } from '../../hooks/useDropDown';
+import { useDropdown } from '../../hooks/useDropDown'; // O nosso hook continua o mesmo, perfeito!
 
 // 1. Atualizamos a interface para incluir a prop 'onSelect'.
 interface DropdownProps {
   opcoes: string[];
   valorPadrao: string;
   // onSelect é uma função que recebe uma string e não retorna nada (void).
-  onSelect: (value: string) => void; 
+  onSelect: (value: string) => void;
 }
 
 // 2. O componente recebe a nova prop.
 const Selections: React.FC<DropdownProps> = ({ opcoes, valorPadrao, onSelect }) => {
-  // A mágica acontece aqui! O hook agora usa as props que a gente passou.
+  // A mágica acontece aqui! CORREÇÃO: Passamos apenas o valorPadrao para o hook.
   const [opcaoSelecionada, setOpcaoSelecionada, textoCustomizado, setTextoCustomizado] =
-    useDropdown(opcoes, valorPadrao);
+    useDropdown(valorPadrao);
 
   // 3. Atualizamos o 'handleChange' para chamar a função 'onSelect'
   // quando o valor do dropdown mudar.

@@ -25,7 +25,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   }, [onContentChange]);
 
   // Executa comandos genéricos
-  const execCmd = useCallback((command: string, value: string | null = null) => {
+  const execCmd = useCallback((command: string, value: string | undefined = undefined) => {
     document.execCommand(command, false, value);
     editorRef.current?.focus();
     handleInput(); // Atualiza o estado após o comando
@@ -59,14 +59,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   // Lida com o clique na barra de ferramentas
   const handleToolbarClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const target = (e.target as HTMLElement).closest('button');
-    // AQUI ESTÁ A NOSSA CORREÇÃO!
-    // A gente verifica se o target existe E se o atributo 'data-command' existe.
-    // Se não existirem, a gente sai da função.
     if (!target || !target.dataset.command) {
       return;
     }
-
-    // Como passamos na verificação, o TypeScript sabe que 'command' é uma string.
     const command = target.dataset.command;
 
     if (command === 'createLink') {

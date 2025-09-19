@@ -10,18 +10,18 @@ interface ScopeSectionProps {
   sectionNumber: number;
 }
 
-const ScopeSection: React.FC<ScopeSectionProps> = ({ id, initialContent = '', onContentChange, onTitleChange, sectionNumber }) => {
+const ScopeSection: React.FC<ScopeSectionProps> = ({ initialContent = '', onContentChange, onTitleChange, sectionNumber }) => {
   const [sectionTitle, setSectionTitle] = useState('');
   const [editorContent, setEditorContent] = useState(initialContent);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSectionTitle(e.target.value);
-    onTitleChange(id, e.target.value);
+    onTitleChange(e.target.value);
   };
 
   const handleEditorContentChange = (content: string) => {
     setEditorContent(content);
-    onContentChange(id, content);
+    onContentChange(content);
   };
 
   return (
