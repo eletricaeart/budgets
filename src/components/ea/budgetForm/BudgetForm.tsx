@@ -45,6 +45,7 @@ const LOCAL_STORAGE_KEYS = {
 };
 
 const BudgetForm: React.FC = () => {
+  // AQUI ESTÁ A CORREÇÃO: Removemos o 'as const'
   const warrantyTimeOptions = [
     '15 dias',
     '30 dias',
@@ -56,7 +57,8 @@ const BudgetForm: React.FC = () => {
     '3 anos',
     '5 anos',
     'customizado',
-  ] as const;
+  ];
+  
   const [currentClient, setCurrentClient] = useState<Client>({
     id: generateId(),
     name: '',
@@ -65,7 +67,6 @@ const BudgetForm: React.FC = () => {
   const [currentBudget, setCurrentBudget] = useState<Budget>({
     id: generateId(),
     clientId: currentClient.id,
-    // issueDate: new Date().toISOString().split('T')[0],
     issueDate: new Date().toISOString().slice(0, 10),
     dueDate: '15',
     warrantyValidity: '6 meses',
@@ -179,192 +180,192 @@ const BudgetForm: React.FC = () => {
   };
 
   return( <>
-      <nav className="navbar">
-        <a href="/">Home</a>
-      </nav>
+    <nav className="navbar">
+      <a href="/">Home</a>
+    </nav>
 
-      <h1>Cadastro de Cliente e Serviços (WIP)</h1>
+    <h1>Cadastro de Cliente e Serviços (WIP)</h1>
 
-      <View as="budget_descs">
-        <View as="grid-1-2">
-          <View as="input-field">
-            <label htmlFor="issueDate">Data da Emissão</label>
-            <input
-              type="date"
-              id="issueDate"
-              value={currentBudget.issueDate}
-              onChange={(e) => setCurrentBudget(prev => ({ ...prev, issueDate: e.target.value }))}
-            />
-          </View>
-
-          <View as="input-field">
-            <label htmlFor="dueDate">Dias de Validade</label>
-            <input
-              type="number"
-              id="dueDate"
-              value={currentBudget.dueDate}
-              onChange={(e) => setCurrentBudget(prev => ({ ...prev, dueDate: e.target.value }))}
-            />
-          </View>
+    <View as="budget_descs">
+      <View as="grid-1-2">
+        <View as="input-field">
+          <label htmlFor="issueDate">Data da Emissão</label>
+          <input
+            type="date"
+            id="issueDate"
+            value={currentBudget.issueDate}
+            onChange={(e) => setCurrentBudget(prev => ({ ...prev, issueDate: e.target.value }))}
+          />
         </View>
 
-        <View as="grid-1-2">
-          <View as="input-field">
-            <label htmlFor="warrantyValidity">Tempo de Garantia</label>
-            <Selections
-              opcoes={warrantyTimeOptions}
-              valorPadrao={currentBudget.warrantyValidity || '6 meses'}
-              onSelect={(value) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: value }))}
-            />
-          </View>
+        <View as="input-field">
+          <label htmlFor="dueDate">Dias de Validade</label>
+          <input
+            type="number"
+            id="dueDate"
+            value={currentBudget.dueDate}
+            onChange={(e) => setCurrentBudget(prev => ({ ...prev, dueDate: e.target.value }))}
+          />
         </View>
       </View>
 
-      <View as="container">
-        <View as="client-section">
-          <h2>Dados do Cliente</h2>
-          <View as='input_field'>
-            <label htmlFor="clientName">Nome do Cliente:</label>
-            <input
-              type="text"
-              id="clientName"
-              placeholder="Nome Completo"
-              autoFocus
-              value={currentClient.name}
-              onChange={(e) => setCurrentClient(prev => ({ ...prev, name: e.target.value }))}
-            />
-          </View>
+      <View as="grid-1-2">
+        <View as="input-field">
+          <label htmlFor="warrantyValidity">Tempo de Garantia</label>
+          <Selections
+            opcoes={warrantyTimeOptions}
+            valorPadrao={currentBudget.warrantyValidity || '6 meses'}
+            onSelect={(value) => setCurrentBudget(prev => ({ ...prev, warrantyValidity: value }))}
+          />
+        </View>
+      </View>
+    </View>
 
-          <View as="input_field">
-            <label htmlFor="clientAddress">Endereço do Cliente:</label>
-            <input
-              type="text"
-              id="clientAddress"
-              placeholder="Endereço Completo"
-              value={currentClient.address}
-              onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
-            />
-          </View>
+    <View as="container">
+      <View as="client-section">
+        <h2>Dados do Cliente</h2>
+        <View as='input_field'>
+          <label htmlFor="clientName">Nome do Cliente:</label>
+          <input
+            type="text"
+            id="clientName"
+            placeholder="Nome Completo"
+            autoFocus
+            value={currentClient.name}
+            onChange={(e) => setCurrentClient(prev => ({ ...prev, name: e.target.value }))}
+          />
         </View>
 
-        <View as="scope-section">
-          <h2>Escopo dos Serviços</h2>
+        <View as="input_field">
+          <label htmlFor="clientAddress">Endereço do Cliente:</label>
+          <input
+            type="text"
+            id="clientAddress"
+            placeholder="Endereço Completo"
+            value={currentClient.address}
+            onChange={(e) => setCurrentClient(prev => ({ ...prev, address: e.target.value }))}
+          />
+        </View>
+      </View>
 
-          <View id="scopeEditorsContainer">
-            {currentBudget.scopeSections.map((section, index) => (
-              <ScopeSection
-                key={section.id}
-                id={section.id}
-                initialContent={section.content}
-                onContentChange={(content) => handleScopeContentChange(section.id, content)}
-                onTitleChange={(title) => handleScopeTitleChange(section.id, title)}
-                sectionNumber={index + 1}
-              />
-            ))}
-          </View>
-          <button id="addNewSectionBtn" onClick={addNewScopeSection}>Adicionar Nova Seção</button>
-          <input type="file" id="imageUpload" accept="image/*" style={{ display: 'none' }} />
+      <View as="scope-section">
+        <h2>Escopo dos Serviços</h2>
+
+        <View id="scopeEditorsContainer">
+          {currentBudget.scopeSections.map((section, index) => (
+            <ScopeSection
+              key={section.id}
+              id={section.id}
+              initialContent={section.content}
+              onContentChange={(content) => handleScopeContentChange(section.id, content)}
+              onTitleChange={(title) => handleScopeTitleChange(section.id, title)}
+              sectionNumber={index + 1}
+            />
+          ))}
+        </View>
+        <button id="addNewSectionBtn" onClick={addNewScopeSection}>Adicionar Nova Seção</button>
+        <input type="file" id="imageUpload" accept="image/*" style={{ display: 'none' }} />
+      </View>
+
+      <View className="service-section">
+        <h2>Serviços</h2>
+        <View as="service-form">
+          <input type="hidden" id="serviceIndex" />
+        <View as="input_field">
+          <label htmlFor="serviceName">Nome do Serviço:</label>
+          <input
+            type="text"
+            id="serviceName"
+            placeholder="Ex: Instalação Elétrica"
+            value={serviceName}
+            onChange={(e) => setServiceName(e.target.value)}
+          />
         </View>
 
-        <View className="service-section">
-          <h2>Serviços</h2>
-          <View as="service-form">
-            <input type="hidden" id="serviceIndex" />
-          <View as="input_field">
-            <label htmlFor="serviceName">Nome do Serviço:</label>
-            <input
-              type="text"
-              id="serviceName"
-              placeholder="Ex: Instalação Elétrica"
-              value={serviceName}
-              onChange={(e) => setServiceName(e.target.value)}
-            />
-          </View>
+        <View as="input_field">
+          <label htmlFor="serviceDescription">Descrição:</label>
+          <textarea
+            id="serviceDescription"
+            placeholder="Detalhes do serviço"
+            value={serviceDescription}
+            onChange={(e) => setServiceDescription(e.target.value)}
+          ></textarea>
+        </View>
 
-          <View as="input_field">
-            <label htmlFor="serviceDescription">Descrição:</label>
-            <textarea
-              id="serviceDescription"
-              placeholder="Detalhes do serviço"
-              value={serviceDescription}
-              onChange={(e) => setServiceDescription(e.target.value)}
-            ></textarea>
-          </View>
+        <View as="input_field">
+          <label htmlFor="serviceQuantity">Quantidade:</label>
+          <input
+            type="number"
+            id="serviceQuantity"
+            value={serviceQuantity}
+            min="1"
+            onChange={(e) => setServiceQuantity(Number(e.target.value))}
+          />
+        </View>
 
-          <View as="input_field">
-            <label htmlFor="serviceQuantity">Quantidade:</label>
-            <input
-              type="number"
-              id="serviceQuantity"
-              value={serviceQuantity}
-              min="1"
-              onChange={(e) => setServiceQuantity(Number(e.target.value))}
-            />
-          </View>
+        <View as="input_field">
+          <label htmlFor="serviceUnitPrice">Valor Unitário:</label>
+          <input
+            type="number"
+            id="serviceUnitPrice"
+            value={serviceUnitPrice}
+            min="0"
+            step="0.01"
+            onChange={(e) => setServiceUnitPrice(Number(e.target.value))}
+          />
+        </View>
 
-          <View as="input_field">
-            <label htmlFor="serviceUnitPrice">Valor Unitário:</label>
-            <input
-              type="number"
-              id="serviceUnitPrice"
-              value={serviceUnitPrice}
-              min="0"
-              step="0.01"
-              onChange={(e) => setServiceUnitPrice(Number(e.target.value))}
-            />
-          </View>
+        <View as="input_field">
+          <label htmlFor="serviceTotalValue">Valor Total:</label>
+          <input
+            type="number"
+            id="serviceTotalValue"
+            value={calculateServiceTotal().toFixed(2)}
+            readOnly
+          />
+        </View>
 
-          <View as="input_field">
-            <label htmlFor="serviceTotalValue">Valor Total:</label>
-            <input
-              type="number"
-              id="serviceTotalValue"
-              value={calculateServiceTotal().toFixed(2)}
-              readOnly
-            />
-          </View>
+          <button id="addServiceBtn" onClick={handleAddService}>Adicionar Serviço</button>
+          <button id="updateServiceBtn" style={{ display: 'none' }}>
+            Atualizar Serviço
+          </button>
+          <button id="cancelEditBtn" style={{ display: 'none' }}>
+            Cancelar Edição
+          </button>
+        </View>
 
-            <button id="addServiceBtn" onClick={handleAddService}>Adicionar Serviço</button>
-            <button id="updateServiceBtn" style={{ display: 'none' }}>
-              Atualizar Serviço
-            </button>
-            <button id="cancelEditBtn" style={{ display: 'none' }}>
-              Cancelar Edição
-            </button>
-          </View>
-
-          <h3>Serviços Adicionados</h3>
-          <table id="servicesTable">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Qtd</th>
-                <th>Unitário</th>
-                <th>Total</th>
-                <th>Ações</th>
+        <h3>Serviços Adicionados</h3>
+        <table id="servicesTable">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Qtd</th>
+              <th>Unitário</th>
+              <th>Total</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentServices.map((service) => (
+              <tr key={service.id}>
+                <td>{service.name}</td>
+                <td>{service.description}</td>
+                <td>{service.quantity}</td>
+                <td>{service.unitPrice.toFixed(2)}</td>
+                <td>{service.total.toFixed(2)}</td>
+                <td>
+                  {/* Action buttons for editing/deleting services */}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {currentServices.map((service) => (
-                <tr key={service.id}>
-                  <td>{service.name}</td>
-                  <td>{service.description}</td>
-                  <td>{service.quantity}</td>
-                  <td>{service.unitPrice.toFixed(2)}</td>
-                  <td>{service.total.toFixed(2)}</td>
-                  <td>
-                    {/* Action buttons for editing/deleting services */}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </View>
-
-        <button id="saveAllDataBtn" onClick={saveAllData}>Salvar Todos os Dados</button>
+            ))}
+          </tbody>
+        </table>
       </View>
-    </>
+
+      <button id="saveAllDataBtn" onClick={saveAllData}>Salvar Todos os Dados</button>
+    </View>
+  </>
   );
 };
 

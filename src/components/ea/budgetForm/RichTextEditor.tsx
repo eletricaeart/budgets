@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import './RichTextEditor.css';
 
 interface RichTextEditorProps {
@@ -9,30 +9,29 @@ interface RichTextEditorProps {
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', onContentChange }) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  // No need for 'content' state here, as contentEditable manages its own DOM
 
-  // Effect to initialize the DOM when initialContent changes externally
+  // Efeito para inicializar o DOM quando o initialContent mudar
   useEffect(() => {
-    if( editorRef.current && editorRef.current.innerHTML !== initialContent ) {
+    if (editorRef.current && editorRef.current.innerHTML !== initialContent) {
       editorRef.current.innerHTML = initialContent;
     }
   }, [initialContent]);
 
-  // Handle input changes from the contenteditable div
+  // Lida com as mudanças no conteúdo do editor
   const handleInput = useCallback(() => {
     if (editorRef.current) {
       onContentChange(editorRef.current.innerHTML);
     }
   }, [onContentChange]);
 
-  // Generic command execution
+  // Executa comandos genéricos
   const execCmd = useCallback((command: string, value: string | null = null) => {
     document.execCommand(command, false, value);
     editorRef.current?.focus();
-    handleInput(); // Update state after command
+    handleInput(); // Atualiza o estado após o comando
   }, [handleInput]);
 
-  // Helper function to insert a styled image
+  // Função para inserir uma imagem estilizada
   const insertStyledImage = useCallback((url: string) => {
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount) return;
@@ -47,7 +46,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     range.deleteContents();
     range.insertNode(img);
 
-    // Move cursor after the image
     const newRange = document.createRange();
     newRange.setStartAfter(img);
     newRange.collapse(true);
@@ -55,14 +53,20 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     selection.addRange(newRange);
 
     editorRef.current?.focus();
-    handleInput(); // Update state after command
+    handleInput(); // Atualiza o estado após o comando
   }, [handleInput]);
 
-  // Event listener for toolbar buttons
+  // Lida com o clique na barra de ferramentas
   const handleToolbarClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const target = (e.target as HTMLElement).closest('button');
-    if (!target || !target.dataset.command) return;
+    // AQUI ESTÁ A NOSSA CORREÇÃO!
+    // A gente verifica se o target existe E se o atributo 'data-command' existe.
+    // Se não existirem, a gente sai da função.
+    if (!target || !target.dataset.command) {
+      return;
+    }
 
+    // Como passamos na verificação, o TypeScript sabe que 'command' é uma string.
     const command = target.dataset.command;
 
     if (command === 'createLink') {
@@ -76,7 +80,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
         insertStyledImage(url);
       }
     } else if (command === 'uploadImage') {
-      // This would typically trigger a file input click
       alert('Image upload functionality needs to be implemented with a file input.');
     } else if (command === 'addText') {
       execCmd('formatBlock', 'p');
@@ -85,7 +88,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     }
   }, [execCmd, insertStyledImage]);
 
-  // Event listener for color inputs
+  // Lida com a mudança nas cores
   const handleColorChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const command = e.target.dataset.command;
     if (command) {
@@ -93,17 +96,14 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     }
   }, [execCmd]);
 
-  // Function to update the toolbar button states based on the current selection
+  // Atualiza a barra de ferramentas (simplificado)
   const updateToolbar = useCallback(() => {
-    // This is a simplified version. A full RTE would track active styles more robustly.
-    // For now, we just ensure the editor has focus.
-    if (editorRef.current && editorRef.current === document.activeElement) {
-      // You could add logic here to check document.queryCommandState for active commands
-      // and update button classes, but it's complex without a library.
+    if (editorRef.current && editorRef.current.contains(window.getSelection()?.anchorNode || null)) {
+      // Lógica mais complexa de atualização pode ser adicionada aqui
     }
   }, []);
 
-  // Listen for selection changes to update toolbar (simplified)
+  // Ouve por mudanças na seleção
   useEffect(() => {
     const handleSelectionChange = () => {
       if (editorRef.current && editorRef.current.contains(window.getSelection()?.anchorNode || null)) {
@@ -119,7 +119,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   return (
     <div className="rich-text-editor-container">
       <div className="toolbar" onClick={handleToolbarClick}>
-        <button data-command="bold" style={{ background: '#27f !important' }}><b>B</b></button>
+        <button data-command="bold" style={{ background: '#27f' }}><b>B</b></button>
         <button data-command="italic"><i>I</i></button>
         <button data-command="underline"><u>U</u></button>
         <button data-command="insertOrderedList">OL</button>
