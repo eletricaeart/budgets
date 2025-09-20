@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import './RichTextEditor.css';
 
 interface RichTextEditorProps {
@@ -9,6 +9,12 @@ interface RichTextEditorProps {
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', onContentChange }) => {
   const editorRef = useRef<HTMLDivElement>(null);
+  
+  // Lista dos comandos que queremos monitorar
+  const monitoredCommands = ['bold', 'italic', 'underline', 'insertOrderedList', 'insertUnorderedList', 'justifyLeft', 'justifyCenter', 'justifyRight'];
+
+  // NOVO ESTADO: Um objeto para armazenar o status de todos os comandos
+  const [activeCommands, setActiveCommands] = useState<Record<string, boolean>>({});
 
   // Efeito para inicializar o DOM quando o initialContent mudar
   useEffect(() => {
@@ -28,7 +34,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   const execCmd = useCallback((command: string, value: string | undefined = undefined) => {
     document.execCommand(command, false, value);
     editorRef.current?.focus();
-    handleInput(); // Atualiza o estado após o comando
+    handleInput();
+    // Atualiza a barra de ferramentas após cada comando
+    updateToolbar();
   }, [handleInput]);
 
   // Função para inserir uma imagem estilizada
@@ -53,7 +61,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     selection.addRange(newRange);
 
     editorRef.current?.focus();
-    handleInput(); // Atualiza o estado após o comando
+    handleInput();
   }, [handleInput]);
 
   // Lida com o clique na barra de ferramentas
@@ -91,16 +99,21 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
     }
   }, [execCmd]);
 
-  // Atualiza a barra de ferramentas (simplificado)
+  // ATUALIZAÇÃO: A função agora checa o estado de TODOS os comandos monitorados
   const updateToolbar = useCallback(() => {
     if (editorRef.current && editorRef.current.contains(window.getSelection()?.anchorNode || null)) {
-      // Lógica mais complexa de atualização pode ser adicionada aqui
+      const newActiveCommands: Record<string, boolean> = {};
+      monitoredCommands.forEach(command => {
+        newActiveCommands[command] = document.queryCommandState(command);
+      });
+      setActiveCommands(newActiveCommands);
     }
-  }, []);
+  }, [monitoredCommands]);
 
   // Ouve por mudanças na seleção
   useEffect(() => {
     const handleSelectionChange = () => {
+      // Certifique-se de que a seleção está dentro do editor antes de atualizar
       if (editorRef.current && editorRef.current.contains(window.getSelection()?.anchorNode || null)) {
         updateToolbar();
       }
@@ -114,23 +127,24 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent = '', on
   return (
     <div className="rich-text-editor-container">
       <div className="toolbar" onClick={handleToolbarClick}>
-        <button data-command="bold" style={{ background: '#27f' }}><b>B</b></button>
-        <button data-command="italic"><i>I</i></button>
-        <button data-command="underline"><u>U</u></button>
-        <button data-command="insertOrderedList">OL</button>
-        <button data-command="insertUnorderedList">UL</button>
+        {/* Usamos o estado 'activeCommands' para aplicar a classe 'active' */}
+        <button data-command="bold" className={activeCommands['bold'] ? 'active' : ''}><b>B</b></button>
+        <button data-command="italic" className={activeCommands['italic'] ? 'active' : ''}><i>I</i></button>
+        <button data-command="underline" className={activeCommands['underline'] ? 'active' : ''}><u>U</u></button>
+        <button data-command="insertOrderedList" className={activeCommands['insertOrderedList'] ? 'active' : ''}>OL</button>
+        <button data-command="insertUnorderedList" className={activeCommands['insertUnorderedList'] ? 'active' : ''}>UL</button>
         <button data-command="addText">Texto</button>
-        <button data-command="justifyLeft">
+        <button data-command="justifyLeft" className={activeCommands['justifyLeft'] ? 'active' : ''}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-left" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
           </svg>
         </button>
-        <button data-command="justifyCenter">
+        <button data-command="justifyCenter" className={activeCommands['justifyCenter'] ? 'active' : ''}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-center" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
           </svg>
         </button>
-        <button data-command="justifyRight">
+        <button data-command="justifyRight" className={activeCommands['justifyRight'] ? 'active' : ''}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-text-right" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
           </svg>

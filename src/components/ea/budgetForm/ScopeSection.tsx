@@ -27,7 +27,7 @@ const ScopeSection: React.FC<ScopeSectionProps> = ({ initialContent = '', onCont
   return (
     <section className="editor-section">
       <div className="title-container">
-        <p className="section-display-title">{sectionTitle ? `1.${sectionNumber} ${sectionTitle}` : 'Adicionar título'}</p>
+        <span className="section-display-title">{sectionTitle ? `1.${sectionNumber} ` : ''}</span>
         <input
           type="text"
           className="section-title-input"

@@ -1,8 +1,8 @@
 /* RichTextEditor.css */
 
 .rich-text-editor-container {
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  /* border: 1px solid #ddd; */
+  border-radius: 0px;
   overflow: hidden;
   margin-bottom: 15px; /* Added for spacing */
 }
@@ -10,14 +10,14 @@
 .toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 0;
+  gap: 0rem 0;
   align-items: center;
   justify-content: space-between;
   background-color: #1b1d22;
   padding: 1rem;
   border-bottom: 1px solid #ccc;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  /* border-top-left-radius: 5px; */
+  /* border-top-right-radius: 5px; */
 }
 
 .toolbar label {
@@ -32,7 +32,20 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #f0f0f0; /* Cor padrão, por exemplo */
+  transition: background-color 0.2s ease;
 }
+
+.toolbar button.active {
+  /* Estilo para o botão quando estiver ativo */
+  background-color: #4CAF50 !important;
+  color: #fff;
+  border-color: #4CAF50 !important;
+}  
 
 .toolbar button:hover {
   background-color: #6a6e75 !important;
@@ -58,4 +71,28 @@
 .toolbar button.clicked {
     background-color: #4CAF50 !important;
     color: white;
+}
+
+.title-container {
+    display: flex;
+    background: #27f;
+    padding: 1rem;
+    gap: .5rem;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 1rem 1rem 0 0;
+  color: #fff;
+}
+
+.title-container input {
+  color: #fff;
+  text-transform: capitalize !important;
+  padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+  background: transparent !important;
+  border: transparent !important;
+  border-radius: 0 !important;
+  outline: transparent !important;
 }
