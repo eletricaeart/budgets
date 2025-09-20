@@ -2417,6 +2417,13 @@ page-footer {
    margin-bottom: 0;
 }
 
+ol {
+  list-style-type: auto;
+}
+ul {
+  list-style-type: disc;
+}
+
 p, t, txt, li {
    font-family: "inter", "Roboto", sans-serif;
    font-weight: normal;
