@@ -37,7 +37,7 @@
   padding: 5px 10px;
   cursor: pointer;
   background-color: #f0f0f0; /* Cor padrão, por exemplo */
-  transition: background-color 0.2s ease;
+  /* transition: background-color 0.2s ease; */
 }
 
 .toolbar button.active {
